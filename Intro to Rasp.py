@@ -22,28 +22,26 @@ for i in b:
     if i < smallest:
         smallest = i
 
-print "a) Maximum:", biggest
-print "b) Minimum:", smallest
-print "c) 33 is Indexed at:", b.index(33)
+print "A\tMaximum:", biggest
+print "B\tMinimum:", smallest
+print "C\t38 is Indexed at:", b.index(38)
 
 ##################################################################
 
 '''Uses a List Comprehension to find number of times each
 value is repeated, then puts it into a set (deletes duplicates),
-then iterates through set and keeps values that repeated'''
+then iterates through set and keeps values that repeated
 numOfOccur = [ (x,b.count(x)) for x in b]
 unique = set(numOfOccur)
 
-print "d) Repeated Numbers:\n", [ (x,y) for (x,y) in unique if y != 1]
-
+print "D\tRepeated Numbers:\n", [ (x,y) for (x,y) in unique if y != 1]
+'''
 
 # Lists the value that repeated the most and its repetition count
-'''
 maxOccur = max([b.count(x) for x in b])
 numOfOccur = [ (x,b.count(x)) for x in b]
 unique = set( [ (x,y) for (x,y) in numOfOccur if y == maxOccur] )
-print unique
-'''
+print "D\tNumbers that repeated the most:",unique
 
 ##################################################################
 
@@ -68,7 +66,7 @@ def quicklySortThis(a):
 a = np.array(b)
 Sorted = quicklySortThis(a)
 
-print "e) Sorted List:\n", Sorted
+print "E\tSorted List:\n", Sorted
 
 ##################################################################
 
@@ -76,7 +74,7 @@ print "e) Sorted List:\n", Sorted
 even = [x for x in b if x%2 == 0]
 evenSorted = quicklySortThis(even)
 
-print "f) Even & in order:\n", evenSorted
+print "F\tEven & in order:\n", evenSorted
 
 
 
