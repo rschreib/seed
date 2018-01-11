@@ -23,9 +23,9 @@ for i in b:
     if i < smallest:
         smallest = i
 
-print "A\tMaximum:", biggest
-print "B\tMinimum:", smallest
-print "C\t38 is Indexed at:", b.index(38)
+print("A\tMaximum:", biggest)
+print("B\tMinimum:", smallest)
+print("C\t38 is Indexed at:", b.index(38))
 
 ##################################################################
 
@@ -41,7 +41,7 @@ print "D\tRepeated Numbers:\n", [ (x,y) for (x,y) in unique if y != 1]
 maxOccur = max([b.count(x) for x in b])
 numOfOccur = [ (x,b.count(x)) for x in b]
 unique = set( [ (x,y) for (x,y) in numOfOccur if y == maxOccur] )
-print "D\tNumbers that repeated the most:",unique
+print("D\tNumbers that repeated the most:",unique)
 
 ##################################################################
 
@@ -65,14 +65,14 @@ def quicklySortThis(a):
 '''Converted to a numpy array and sorted it'''
 a = np.array(b)
 Sorted = quicklySortThis(a)
-print "E\tSorted List:\n", Sorted
+print("E\tSorted List:\n", Sorted)
 
 ##################################################################
 
 '''Finds all values that are even then uses sorting algorithm'''
 even = [x for x in b if x%2 == 0]
 evenSorted = quicklySortThis(even)
-print "F\tEven & in order:\n", evenSorted
+print("F\tEven & in order:\n", evenSorted)
 
 
 
