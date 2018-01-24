@@ -2,6 +2,8 @@
 # Author: Robert Schreibman
 # Exercise 1: Intro to Arduino and Raspberry Pi
 
+# This assignment gets you familiar with Python Code
+
 ##################################################################
 
 # Import Library Declaration 
