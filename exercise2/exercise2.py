@@ -7,13 +7,14 @@
 from picamera import PiCamera
 from time import sleep
 import os
-from PIL import Image
+import cv2
+import numpy as np
 
 import sys
 import subprocess
 def openImage(path):
 	imageViewer = {'linux':'eog','win32':'explorer','darwin':'open'}[sys.platform]
-	subprocess.run([imageViewer, /home/pi/Desktop/%s
+	subprocess.run([imageViewer, path])
 
 camera = PiCamera()
 camera.rotation = 180
@@ -29,6 +30,7 @@ camera.capture('/home/pi/Desktop/.image.jpg')
 #camera.stop_preview()
 
 # 1b
+filename = "pic"
 filename = input("Image Filename (.jpg): ")
 
 # 1c
@@ -37,7 +39,10 @@ print("Succesfully created %s on Desktop" % filename)
 #os.system('echo "Succesfully created %s on Desktop"' % filename) 
 
 # 1d
-img = Image.open('/home/pi/Desktop/%s' % filename)
+img = cv2.imread('/home/pi/Desktop/1.jpg', 0)
+cv2.imshow('window name here', img)
+cv2.waitKey(0)
+vc2.destroyAllWindows()
 
 
 
