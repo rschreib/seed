@@ -14,46 +14,75 @@ camera = PiCamera()
 camera.rotation = 180
 camera.resolution = (1024, 768) 
 folderpath = "/home/pi/Desktop"
+filename = "1.jpg"
+dst = "/home/pi/Desktop/11.jpg"
+
+def captureImage():
+        print("Look into Camera ...")
+        #camera.start_preview()
+        for x in range(3, 0, -1):
+                sleep(1)
+                print(x)
+        camera.capture('%s/.image.jpg' %folderpath)
+        #camera.stop_preview()
+
+def storeFile(name):
+        os.system('mv %s/.image.jpg %s/%s' % (folderpath, folderpath, name))
+        print("Succesfully created %s on Desktop" % name) 
+
+def function1():
+        # 1a  ##################################################################
+        captureImage()
+
+        # 1b  ##################################################################
+        filename = input("Image Filename (.jpg): ")
+        filename = filename + ".jpg"
+
+        # 1c  ##################################################################
+        storeFile(filename)
+
+        # 1d  ##################################################################
+        img = cv2.imread('%s/%s' % (folderpath, filename))
+        cv2.imshow('Image Captured', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+        # 1e  ##################################################################
+        sleep(2)
+        print("\nNow select a Pixel on the Image...\n")
+        sleep(2)
+        myfile = open('%s/%s' % (folderpath, filename))
+        #stuck here, need to click on image and get location
 
 
-# 1a  ##################################################################
-print("Look into Camera ...")
-#camera.start_preview()
-for x in range(3, 0, -1):
-	sleep(1)
-	print(x)
-camera.capture('%s/.image.jpg' %folderpath)
-#camera.stop_preview()
+def function2():
+        # 2   ##################################################################
+        img = cv2.imread('/home/pi/Desktop/1.jpg',1)
+        small = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation = cv2.INTER_AREA)
+        print("original dim: ", img.shape)
+        print("new dim: ", small.shape)
+        cv2.imshow('Image', small)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
-# 1b  ##################################################################
-filename = input("Image Filename (.jpg): ")
-filename = filename + ".jpg"
+def function3():
+        # 3a  ##################################################################
+        captureImage()
 
-# 1c  ##################################################################
-os.system('mv %s/.image.jpg %s/%s' % (folderpath, folderpath, filename))
-print("Succesfully created %s on Desktop" % filename) 
-#os.system('echo "Succesfully created %s on Desktop"' % filename) 
-
-# 1d  ##################################################################
-img = cv2.imread('%s/%s' % (folderpath, filename))
-cv2.imshow('Image Captured', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-# 1e  ##################################################################
-sleep(2)
-print("\nNow select a Pixel on the Image...\n")
-sleep(2)
-myfile = open('%s/%s' % (folderpath, filename))
-
-
-# 2   ##################################################################
-# 3a  ##################################################################
-# 3b  ##################################################################
-# 3c  ##################################################################
-# 3d  ##################################################################
-# 3e  ##################################################################
-# 3f  ##################################################################
+        # 3b  ##################################################################
+        storeFile("colors.jpg")
+        
+        # 3c  ##################################################################
+        img = cv2.imread('/home/pi/Desktop/colors.jpg',1)
+        small = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation = cv2.INTER_AREA)
+        cv2.imshow('Image', small)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        
+        # 3d  ##################################################################
+        # 3e  ##################################################################
+        # 3f  ##################################################################
+function3()
 
 # 4   ##################################################################
 
