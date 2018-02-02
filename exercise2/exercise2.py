@@ -1,7 +1,7 @@
 #Robert Schreibman
 #EENG450 SEED LAB
 #Exercise 2: Intro to Open CV
-
+ 
 #An introduction to using the pi camera and OpenCV
 
 from picamera import PiCamera
@@ -14,7 +14,6 @@ import cv2
 
 
 camera = PiCamera()
-
 camera.rotation = 180
 camera.resolution = (1024, 768) 
 folderpath = "/home/pi/Desktop"         
@@ -22,14 +21,6 @@ filename = "1.jpg"                      #default value
 mouseX = 0
 mouseY = 0
 
-'''
-with picamera.array.PiRGBArray(camera) as output:
-        camera.capture(output, 'rgb')
-        print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
-        print(output)
-        img = cv2.imread(output)
-        cv2.imshow(output, img)
-        '''
 def captureImage():
         print("Look into Camera ...")
         #camera.start_preview()
@@ -43,27 +34,21 @@ def storeFile(name):
         os.system('mv %s/.image.jpg %s/%s' % (folderpath, folderpath, name))
         print("Succesfully created %s on Desktop" % name)
 
-def draw_circle(event,x,y,flags, param):
+def get_pixel_location(event,x,y,flags, param):
         global mouseX,mouseY
         if event == cv2.EVENT_LBUTTONDBLCLK:
-                #cv2.circle(img,(x,y),100,(255,0,0),-1)
                 mouseX,mouseY = x,y
                 print("x:",mouseX,"y:",mouseY)
-                '''
-                with picamera.PiCamera() as camera:
-                        with picamera.array.PiRGBArray(camera) as output:
-                                camera.capture(output, 'rbg')
-                                print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))'''
+                print(img[(mouseY,mouseX)])
                                 
-        
 def function1():
         # 1a  ##################################################################
         captureImage()
 
         # 1b  ##################################################################
-        #filename = input("Image Filename (.jpg): ")
-        #filename = filename + ".jpg"
-        filename = "1.jpg"
+        filename = input("Image Filename (.jpg): ")
+        filename = filename + ".jpg"
+        #filename = "1.jpg"
         # 1c  ##################################################################
         storeFile(filename)
 
@@ -74,12 +59,11 @@ def function1():
   
         # 1e  ##################################################################
         cv2.namedWindow('Image Captured',1)
-        cv2.setMouseCallback('Image Captured', draw_circle)
+        cv2.setMouseCallback('Image Captured', get_pixel_location)
         cv2.imshow('Image Captured', img)                                        
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-function1()
 
 def function2():
         # 2   ##################################################################
@@ -102,26 +86,47 @@ def function3():
         os.system('cp %s/colors.jpg %s/colors-copy.jpg' % (folderpath, folderpath))
 
         # 3d  ##################################################################
-        img = cv2.imread('/home/pi/Desktop/colors.jpg',1)
-        small = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation = cv2.INTER_AREA)
-        cv2.imshow('Image', small)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        cv2.imwrite('/home/pi/Desktop/colors.jpg',small)
+        global img
+        img = cv2.imread('/home/pi/Desktop/colors-copy.jpg',1)
+        img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation = cv2.INTER_AREA)
+        cv2.imwrite('/home/pi/Desktop/colors-copy.jpg',img)
         
         # 3e  ##################################################################
-
-        
-        
-        # 3f  ##################################################################
-        img1 = cv2.imread('/home/pi/Desktop/colors.jpg',1)
-        img2 = cv2.imread('/home/pi/Desktop/colors-copy.jpg',1)
-        cv2.imshow('Original Image', img1)
-        cv2.imshow('Copy Image', img2)
+        img1 = cv2.imread('/home/pi/Desktop/colors-copy.jpg',1)
+        cv2.namedWindow('Image Captured',1)
+        cv2.setMouseCallback('Image Captured', get_pixel_location)
+        cv2.imshow('Image Captured', img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+        black = [0,0,0]
+        a = img[(mouseY,mouseX)][0]
+        b = img[(mouseY,mouseX)][1]
+        c = img[(mouseY,mouseX)][2]
+        #total = a + b + c
         
+        for j in range(0,img.shape[0]):
+            for i in range(0, img.shape[1]):
+                blue = img[(j,i)][0]
+                green = img[(j,i)][1]
+                red = img[(j,i)][2]
+                #othertotal = blue + green + red
+                #if othertotal > total + 10 or othertotal < total - 10:
+                    #img1[(j,i)] = black
+                #if abs(a-blue) > 40 or abs(b-green) > 40 or abs(c-red) > 40:
+                    #img[(j,i)] = black
+                if blue>20 or green>200 or green<70 or red<90 or red>220:
+                    img[(j,i)] = black
+        # 3f  ##################################################################
+        cv2.imshow('colors-copy.jpg', img1)                        
+        cv2.imshow('colors-copy Yellow', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+      
+function3()     
 # 4   ##################################################################
+
+
 
 # 5   ##################################################################
 
