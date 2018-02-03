@@ -1,6 +1,7 @@
 #Robert Schreibman
 #EENG450 SEED LAB
 #Exercise 2: Intro to Open CV
+#Spent 20 plus hours on this
  
 #An introduction to using the pi camera and OpenCV
 
