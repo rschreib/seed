@@ -11,6 +11,7 @@ from time import sleep
 import os
 import numpy as np
 import cv2
+import glob
 
 
 camera = PiCamera()
@@ -268,12 +269,114 @@ def function6():
     cv2.imwrite(file1blurred, blur)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
-def function7():
-  
-    
+
+def function7():    
     # 7a  ##################################################################
-
-
     # 7b  ##################################################################
     # 7c  ##################################################################
+    
+    file1 = '/home/pi/seed/exercise2/part6/CombinednewBlurred.jpg'
+    file1Contours = '/home/pi/seed/exercise2/part6/CombinednewBlurredCountours.jpg'
+    im = cv2.imread(file1, 0)
+    ########################################################################
+    
+    # Setup SimpleBlobDetector parameters.
+    
+    params = cv2.SimpleBlobDetector_Params()
+    
+    # Change thresholds
+    params.minThreshold = 10;
+    params.maxThreshold = 200;
+
+    # Filter by Color
+    params.filterByColor = True
+    params.blobColor = 150
+     
+    # Filter by Area.
+    params.filterByArea = True
+    params.minArea = 50
+    params.maxArea = 2000
+     
+    # Filter by Circularity
+    params.filterByCircularity = False
+    params.minCircularity = 0.1
+     
+    # Filter by Convexity
+    params.filterByConvexity = False
+    params.minConvexity = 0.17
+     
+    # Filter by Inertia
+    params.filterByInertia = False
+    params.minInertiaRatio = 0.01
+     
+    # Create a detector with the parameters
+    ver = (cv2.__version__).split('.')
+    if int(ver[0]) < 3 :
+        detector = cv2.SimpleBlobDetector(params)
+    else : 
+        detector = cv2.SimpleBlobDetector_create(params)
+    
+
+    #detector = cv2.SimpleBlobDetector_create()
+
+    external_color = [22, 255, 200]
+    hole_color = 200
+    max_level = 0
+    keypoints = detector.detect(im)
+    #im_with_contours = cv2.drawContours(im, file1Contours, external_color, hole_color,  max_level=0, thickness=1, lineType=8, offset=(0, 0))
+    contours = cv.FindContours (color_mask, storage, method = cv.CV_CHAIN_APPROX_SIMPLE)
+    cv2.DrawContours(img=im, contour=contours, external_color=cv.RGB(255, 0, 0), hole_color=cv.RGB(0, 255, 0), max_level=1 )
+    
+    #im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    cv2.imshow("Contours", im_with_contours)
+    #cv2.imshow("Keypoints", im_with_keypoints)
+    
+    ###################################################################
+    '''
+    hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
+    # define range of purple color in HSV
+    purpleMin = (115,50,10)
+    purpleMax = (160, 255, 255)
+    # Sets pixels to white if in purple range, else will be set to black
+    mask = cv2.inRange(hsv, purpleMin, purpleMax)
+        
+    # Bitwise-AND of mask and purple only image - only used for display
+    res = cv2.bitwise_and(frame, frame, mask= mask)
+
+    # Set up the SimpleBlobdetector with default parameters.
+    params = cv2.SimpleBlobDetector_Params()
+     
+    # Change thresholds
+    params.minThreshold = 0;
+    params.maxThreshold = 256;
+     
+    # Filter by Area.
+    params.filterByArea = True
+    params.minArea = 30
+     
+    # Filter by Circularity
+    params.filterByCircularity = True
+    params.minCircularity = 0.1
+     
+    # Filter by Convexity
+    params.filterByConvexity = True
+    params.minConvexity = 0.5
+     
+    # Filter by Inertia
+    params.filterByInertia =True
+    params.minInertiaRatio = 0.5
+     
+    detector = cv2.SimpleBlobDetector_create(params)
+ 
+    # Detect blobs.
+    reversemask=255-mask
+    keypoints = detector.detect(reversemask)
+
+    cv2.imshow("Blob", keypoints)
+    '''
+    
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
+
+
