@@ -42,9 +42,9 @@ def get_pixel_location2(event,x,y,flags, param):    #returns pixel location and 
             print(hsv[(mouseY,mouseX)])
  
 def function1():
-    captureImage(folderpath,name)              #captures and image
+    captureImage(folderpath,filename)              #captures and image
     global img                              
-    img = cv2.imread('{}/{}.jpg'.format(folderpath,name),1)
+    img = cv2.imread('{}/{}.jpg'.format(folderpath,filename),1)
     
     cv2.namedWindow('Image Captured',1)
     cv2.setMouseCallback('Image Captured', get_pixel_location)
