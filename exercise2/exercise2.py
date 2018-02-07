@@ -58,8 +58,7 @@ def get_pixel_location2(event,x,y,flags, param):    #returns pixel location and 
             mouseX,mouseY = x,y
             print("\nx:",mouseX,"y:",mouseY)
             print(hsv[(mouseY,mouseX)])
-
-                               
+                                
 def function1():
     # 1a  ##################################################################
     captureImage()      #captures an image
@@ -83,7 +82,6 @@ def function1():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-                              
 
 def function2():    #reads a previously stored image (use an image captured from part 1), resizes 
                     #the image to half its size without changing the aspect ratio
@@ -92,6 +90,8 @@ def function2():    #reads a previously stored image (use an image captured from
     small = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation = cv2.INTER_AREA)
     print("original dim: ", img.shape)
     print("new dim: ", small.shape)
+    cv2.imshow('Image', small)
+    cv2.waitKey(0)
     cv2.imshow('Image', small)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -398,7 +398,3 @@ def function7():
     '''
     
     cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    
-
-
