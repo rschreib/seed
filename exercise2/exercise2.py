@@ -58,7 +58,8 @@ def get_pixel_location2(event,x,y,flags, param):    #returns pixel location and 
             mouseX,mouseY = x,y
             print("\nx:",mouseX,"y:",mouseY)
             print(hsv[(mouseY,mouseX)])
-                                
+
+                               
 def function1():
     # 1a  ##################################################################
     captureImage()      #captures an image
@@ -82,6 +83,7 @@ def function1():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+                              
 
 def function2():    #reads a previously stored image (use an image captured from part 1), resizes 
                     #the image to half its size without changing the aspect ratio
@@ -94,6 +96,7 @@ def function2():    #reads a previously stored image (use an image captured from
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+ 
 def function3():
     # 3a  ##################################################################
     captureImage()              #captures and image
@@ -122,25 +125,25 @@ def function3():
     print("\nProcessing Image...")
 
     black = [0,0,0]
-    a = img[(mouseY,mouseX)][0] #image width (number of columns)
-    b = img[(mouseY,mouseX)][1] #image height (number of rows)
-    c = img[(mouseY,mouseX)][2] #dimension size
+    #a = img[(mouseY,mouseX)][0] #image width (number of columns)
+    #b = img[(mouseY,mouseX)][1] #image height (number of rows)
+    #c = img[(mouseY,mouseX)][2] #dimension size
     
                                 #loops through each pixel BGR value and changes
                                 # it to black if it is not yellow
-    for j in range(0,img.shape[0]):     
-        for i in range(0, img.shape[1]):
-            blue = img[(j,i)][0]
-            green = img[(j,i)][1]
-            red = img[(j,i)][2]
-            if blue>45 or green>200 or green<70 or red<90 or red>220:
-                 img[(j,i)] = black
+    for j in range(0,img1.shape[0]):     
+        for i in range(0, img1.shape[1]):
+            blue = img1[(j,i)][0]
+            green = img1[(j,i)][1]
+            red = img1[(j,i)][2]
+            if blue>80 or green>200 or green<70 or red<90 or red>220:
+                 img1[(j,i)] = black
                  
     # 3f  ##################################################################
                                 #Display the original image and the image after the color
                                 #yellow has been isolated side by side
-    cv2.imshow('colors-copy.jpg', img1)                        
-    cv2.imshow('colors-copy Yellow', img)
+    cv2.imshow('colors-copy.jpg', img)                        
+    cv2.imshow('colors-copy Yellow', img1)
     print("Image Created")
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -233,7 +236,7 @@ def function4():
         
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
+  
 def function4_5():
     # This will take 4 of the isolated colored images and combine them into one image by
     # adding the numpy.arrays together using matrix addition
@@ -273,6 +276,7 @@ def function5():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
+  
 def function6():
     # 6   ##################################################################
                                 #Convert the cleaned-up image to a grayscale image
@@ -287,7 +291,7 @@ def function6():
     cv2.imwrite(file1blurred, blur)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
+function6() 
 def function7():    
     # 7a  ##################################################################
     # 7b  ##################################################################
