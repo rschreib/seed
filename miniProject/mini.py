@@ -15,36 +15,34 @@ camera = PiCamera()
 camera.rotation = 180                   
 camera.resolution = (1024, 768) 
 folderpath = "/home/pi/Desktop"         
-filename = "image.jpg"
-global mouseX,mouseY
-
-def countDown():                        #Count down from 3 to 1
-    for x in range(2, 0, -1):
-        sleep(1)
-        print(x)
+filename = "image"
+mouseX = 0
+mouseY = 0
 
 def captureImage(folderpath,name):      #Captures image & saves image to file
     print("Look into Camera ...")
-    countDown()
+    for x in range(3, 0, -1):
+        sleep(.2)
+        print(x)
     camera.capture('{}/{}.jpg'.format(folderpath,name))
     print("Succesfully created %s on Desktop" % name)
 
-def get_pixel_location(event,x,y,flags, param):     #returns pixel location and BGR value after clicking on img
+def get_pixel_location(event,x,y,flags, param):     #returns pixel location, BGR, & HSV value after double clicking on img
     if event == cv2.EVENT_LBUTTONDBLCLK:
+            global mouseX, mouseY
             mouseX,mouseY = x,y
             print("x:",mouseX,"y:",mouseY)
-            print(img[(mouseY,mouseX)])
-
-def get_pixel_location2(event,x,y,flags, param):    #returns pixel location and BGR value after clicking on hsv
-    if event == cv2.EVENT_LBUTTONDBLCLK:
-            mouseX,mouseY = x,y
-            print("\nx:",mouseX,"y:",mouseY)
-            print(hsv[(mouseY,mouseX)])
+            print("BGR: ", img[(mouseY,mouseX)])
+            print("HSV: ", hsv_img[(mouseY,mouseX)])
+            print("")
  
 def function1():
     captureImage(folderpath,filename)              #captures and image
-    global img                              
+    global img
+    global hsv_img   
+
     img = cv2.imread('{}/{}.jpg'.format(folderpath,filename),1)
+    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     
     cv2.namedWindow('Image Captured',1)
     cv2.setMouseCallback('Image Captured', get_pixel_location)
@@ -52,25 +50,33 @@ def function1():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    print("\nProcessing Image...")
-
+    print("Processing Image...")
     black = [0,0,0]
-    a = img[(mouseY,mouseX)][0] #image width (number of columns)
-    b = img[(mouseY,mouseX)][1] #image height (number of rows)
-    c = img[(mouseY,mouseX)][2] #dimension size
-                         
-    for j in range(0,img.shape[0]):     
-        for i in range(0, img.shape[1]):
+    print(mouseX,mouseY)
+    a = img[mouseY,mouseX][0] 
+    b = img[mouseY,mouseX][1] 
+    c = img[mouseY,mouseX][2] 
+     
+    adjusted_img = img
+    
+    for j in range(img.shape[0]):         #image width (number of columns)
+        for i in range(img.shape[1]):    #image height (number of rows) # shape[2] = dimension size
             blue = img[(j,i)][0]
             green = img[(j,i)][1]
             red = img[(j,i)][2]
             
-            if abs(blue-a) < 30 or abs(green-b) < 30 or abs(red<c):
-                 img[(j,i)] = black
-
+            if abs(blue-a) > 30 or abs(green-b) > 30 or abs(red-c) > 30:
+                adjusted_img[(j,i)] = black               
+                    
+    hsv_img = cv2.cvtColor(adjusted_img, cv2.COLOR_BGR2HSV)
+    
+    cv2.namedWindow('Image Captured',1)
+    cv2.setMouseCallback('Image Captured', get_pixel_location)
+    cv2.imshow('Image Captured', adjusted_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
 function1()
-
-
 
 def function4():
     '''
