@@ -157,7 +157,7 @@ def function1():
     cv2.namedWindow('pic1',1)
     cv2.setMouseCallback('pic1', get_pixel_location2)
 
-    cv2.imshow('pic1', p)
+    #cv2.imshow('pic1', p)
         
         #cv2.imshow('mask', yellow_mask)
         #cv2.imshow('mask1', blue_mask)
@@ -166,8 +166,8 @@ def function1():
         
         #cv2.imshow('res', res)
         #cv2.imshow('res1', res1)
-    cv2.imshow('res2', res2)
-    cv2.imshow('res3', res3)
+    #cv2.imshow('res2', res2)
+    #cv2.imshow('res3', res3)
         
         #cv2.imwrite('{}/{}Y.jpg'.format(folderpath,i), res)
         #cv2.imwrite('{}/{}B.jpg'.format(folderpath,i), res1)
