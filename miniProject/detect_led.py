@@ -50,7 +50,7 @@ params.minArea = 5
 detector = cv2.SimpleBlobDetector(params)
 
 keypoints = detector.detect(mask)
-print len(keypoints)
+print(len(keypoints))
 
 cv2.imshow('res',mask)
 cv2.imshow('image',img)
