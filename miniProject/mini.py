@@ -14,7 +14,8 @@ import glob
 camera = PiCamera()
 camera.rotation = 180                   
 camera.resolution = (1024, 768) 
-folderpath = "/home/pi/Desktop"         
+#folderpath = "/home/pi/Desktop"
+folderpath = "/home/pi/seed/miniProject"
 filename = "image"
 mouseX = 0
 mouseY = 0
