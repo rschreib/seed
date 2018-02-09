@@ -49,7 +49,7 @@ def function1():
     cv2.imshow('Image Captured', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-   ''' 
+    ''' 
     print("Processing Image...")
     black = [0,0,0]
     print(mouseX,mouseY)
