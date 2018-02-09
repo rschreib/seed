@@ -171,8 +171,8 @@ def function1():
         
         #cv2.imwrite('{}/{}Y.jpg'.format(folderpath,i), res)
         #cv2.imwrite('{}/{}B.jpg'.format(folderpath,i), res1)
-    cv2.imwrite('{}/{}G.jpg'.format(folderpath,i), res2)
-    cv2.imwrite('{}/{}R.jpg'.format(folderpath,i), res3)
+    cv2.imwrite('{}/G.jpg'.format(folderpath), res2)
+    cv2.imwrite('{}/R.jpg'.format(folderpath), res3)
         
     cv2.waitKey(0)
     cv2.destroyAllWindows()
