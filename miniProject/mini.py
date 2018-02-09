@@ -49,7 +49,7 @@ def function1():
     cv2.imshow('Image Captured', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
+   ''' 
     print("Processing Image...")
     black = [0,0,0]
     print(mouseX,mouseY)
@@ -67,7 +67,7 @@ def function1():
             
             if abs(blue-a) > 30 or abs(green-b) > 30 or abs(red-c) > 30:
                 adjusted_img[(j,i)] = black               
-                    
+    '''              
     hsv_img = cv2.cvtColor(adjusted_img, cv2.COLOR_BGR2HSV)
     
     cv2.namedWindow('Image Captured',1)
@@ -76,9 +76,7 @@ def function1():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-function1()
 
-def function4():
     '''
     camera.sharpness = 0
     camera.contrast = 0
@@ -119,56 +117,55 @@ def function4():
     pic3address = '{}/{}.jpg'.format(folderpath,'pic3')
     
     capture('pic1')
-    capture('pic2')
-    capture('pic3')
+    #capture('pic2')
+    #capture('pic3')
     
-    p1 = cv2.imread(pic1address)
-    p2 = cv2.imread(pic2address)
-    p3 = cv2.imread(pic3address)
-    arr = [p1,p2,p3]
+    p = cv2.imread(pic1address)
+    #p2 = cv2.imread(pic2address)
+    #p3 = cv2.imread(pic3address)
+    #arr = [p1,p2,p3]
     
     global hsv
     
-    for i in range(3):
-        p = arr[i]
-        hsv = cv2.cvtColor(p, cv2.COLOR_BGR2HSV)
+    #for i in range(3):
+    hsv = cv2.cvtColor(p, cv2.COLOR_BGR2HSV)
                                     # makes the pixels white and black everywhere else
-        yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
-        blue_mask = cv2.inRange(hsv, lower_blue, upper_blue)
-        green_mask = cv2.inRange(hsv, lower_green, upper_green)
-        red_mask = cv2.inRange(hsv, lower_red, upper_red)
+        #yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+        #blue_mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    green_mask = cv2.inRange(hsv, lower_green, upper_green)
+    red_mask = cv2.inRange(hsv, lower_red, upper_red)
                                     # adds a color tint to the white pixels
-        res = cv2.bitwise_and(p, p, mask= yellow_mask)
-        res1 = cv2.bitwise_and(p, p, mask= blue_mask)
-        res2 = cv2.bitwise_and(p, p, mask= green_mask)
-        res3 = cv2.bitwise_and(p, p, mask= red_mask)
+        #res = cv2.bitwise_and(p, p, mask= yellow_mask)
+        #res1 = cv2.bitwise_and(p, p, mask= blue_mask)
+    res2 = cv2.bitwise_and(p, p, mask= green_mask)
+    res3 = cv2.bitwise_and(p, p, mask= red_mask)
 
-        cv2.namedWindow('pic1',1)
-        cv2.setMouseCallback('pic1', get_pixel_location2)
+    cv2.namedWindow('pic1',1)
+    cv2.setMouseCallback('pic1', get_pixel_location2)
 
-        cv2.imshow('pic1', p)
+    cv2.imshow('pic1', p)
         
         #cv2.imshow('mask', yellow_mask)
         #cv2.imshow('mask1', blue_mask)
-        #cv2.imshow('mask2', green_mask)
-        #cv2.imshow('mask3', red_mask)
+    #cv2.imshow('mask2', green_mask)
+    #cv2.imshow('mask3', red_mask)
         
-        cv2.imshow('res', res)
-        cv2.imshow('res1', res1)
-        cv2.imshow('res2', res2)
-        cv2.imshow('res3', res3)
+        #cv2.imshow('res', res)
+        #cv2.imshow('res1', res1)
+    cv2.imshow('res2', res2)
+    cv2.imshow('res3', res3)
         
-        cv2.imwrite('{}/{}Y.jpg'.format(folderpath,i), res)
-        cv2.imwrite('{}/{}B.jpg'.format(folderpath,i), res1)
-        cv2.imwrite('{}/{}G.jpg'.format(folderpath,i), res2)
-        cv2.imwrite('{}/{}R.jpg'.format(folderpath,i), res3)
+        #cv2.imwrite('{}/{}Y.jpg'.format(folderpath,i), res)
+        #cv2.imwrite('{}/{}B.jpg'.format(folderpath,i), res1)
+    cv2.imwrite('{}/{}G.jpg'.format(folderpath,i), res2)
+    cv2.imwrite('{}/{}R.jpg'.format(folderpath,i), res3)
         
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 
-  
+function1() 
 def function4_5():
     # This will take 4 of the isolated colored images and combine them into one image by
     # adding the numpy.arrays together using matrix addition
