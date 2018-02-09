@@ -12,6 +12,17 @@ import cv2
 import glob
 
 camera = PiCamera()
+camera.iso = 100
+
+#Auto White Baance Section
+#time.sleep(2)
+g = ((341/256),(217/128))
+g = camera.awb_gains
+camera.awb_mode = 'off'
+camera.awb_gains = g
+camera.iso = 400
+camera.shutter_speed = 3000
+
 camera.rotation = 180                   
 camera.resolution = (1024, 768) 
 #folderpath = "/home/pi/Desktop"
@@ -19,6 +30,8 @@ folderpath = "/home/pi/seed/miniProject"
 filename = "image"
 mouseX = 0
 mouseY = 0
+
+
 
 def captureImage(folderpath,name):      #Captures image & saves image to file
     print("Look into Camera ...")
@@ -44,13 +57,13 @@ def function1():
 
     img = cv2.imread('{}/{}.jpg'.format(folderpath,filename),1)
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    
+    '''
     cv2.namedWindow('Image Captured',1)
     cv2.setMouseCallback('Image Captured', get_pixel_location)
     cv2.imshow('Image Captured', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    ''' 
+     
     print("Processing Image...")
     black = [0,0,0]
     print(mouseX,mouseY)
@@ -69,11 +82,11 @@ def function1():
             if abs(blue-a) > 30 or abs(green-b) > 30 or abs(red-c) > 30:
                 adjusted_img[(j,i)] = black               
     '''              
-    hsv_img = cv2.cvtColor(adjusted_img, cv2.COLOR_BGR2HSV)
+    #hsv_img = cv2.cvtColor(adjusted_img, cv2.COLOR_BGR2HSV)
     
     cv2.namedWindow('Image Captured',1)
     cv2.setMouseCallback('Image Captured', get_pixel_location)
-    cv2.imshow('Image Captured', adjusted_img)
+    cv2.imshow('Image Captured', hsv_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
@@ -101,11 +114,11 @@ def function1():
     #green, and red in all of these images
 
                     #Define ranges for the pixel colors
-    lower_yellow = np.array([20,230,90])
-    upper_yellow = np.array([50, 256, 245])
+    #lower_yellow = np.array([20,230,90])
+    #upper_yellow = np.array([50, 256, 245])
 
-    lower_blue = np.array([95,210,70])
-    upper_blue = np.array([140,256,250])
+    #lower_blue = np.array([95,210,70])
+    #upper_blue = np.array([140,256,250])
 
     lower_green = np.array([40,230,100])
     upper_green = np.array([80,256,210])
@@ -114,8 +127,8 @@ def function1():
     upper_red = np.array([15,256,241])
 
     pic1address = '{}/{}.jpg'.format(folderpath,'pic1')
-    pic2address = '{}/{}.jpg'.format(folderpath,'pic2')
-    pic3address = '{}/{}.jpg'.format(folderpath,'pic3')
+    #pic2address = '{}/{}.jpg'.format(folderpath,'pic2')
+    #pic3address = '{}/{}.jpg'.format(folderpath,'pic3')
     
     capture('pic1')
     #capture('pic2')
