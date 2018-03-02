@@ -11,7 +11,6 @@ def get_distance(Height): #input height of LED triangle
     Distance = 96.2*40/Height
     return Distance
 
-
 #38, 21.5 (adjacent, opposite) (used to calculate camera angle)
 #total degrees of range is -30 (left) +30 (right) or use -29.5 & +29.5
 def get_angle(LED_pixel_X): #input the x value of one of the LED Pixels (or center of triangle pixel)
