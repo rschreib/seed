@@ -1,55 +1,85 @@
-import math #math.degrees(math.atan(math.sqrt(3)/1))
+import math # math.degrees(math.atan(math.sqrt(3)/1))
 
-
-              
-class Beacon:
-
-    def angle_from_car(self):
-        return math.degrees(math.atan(self.x1 / self.y1))
-    
-    def __init__(self,hypotenuse=0, angle=99, X=0.0, Y=0.0):
-        self.hypotenuse = hypotenuse    #relative to car
-        self.angle = angle              #relative to car
-        self.x = X      #absolute Location of Beacon on Grid
-        self.y = Y      #absolute Location of Beacon on Grid
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
     def __repr__(self):
-        print("x:", self.x," y:",self.y)
+        return "(x,y) = (%.2f,%.2f)" % (self.x,self.y)
+class Beacon:
+    def __init__(self,x, y, radius):
+        self.x = x                      # Location of Beacon on Grid
+        self.y = y                      # Location of Beacon on Grid
+        self.radius = radius            # distance from car
+    def __repr__(self):
+        return "(x,y) = (%.2f,%.2f)" % (self.x,self.y)
+def get_angle_and_distance(p):
+    angle = math.degrees(math.atan(p.y / p.x)) - 90
+    magnitude = math.sqrt(p.x**2 + p.y**2)
+    return angle, magnitude
 
+def distance_to_travel(car_Location, destination):
+    dx = destination.x - car_Location.x
+    dy = car_Location.y - destination.y
+    return Point(dx, dy)
 
+def Intersect_Points(b1, b2):
+    # https://gamedev.stackexchange.com/questions/7172/how-do-i-find-the-intersections-between-colliding-circles
+    # Determines the points at which two circles intersect.
+    # Based on an algorithm described by Paul Bourke:
+    # http://local.wasp.uwa.edu.au/~pbourke/geometry/2circle/
+    # Arguments:
+    #   P0 (complex): the centre point of the first circle
+    #   P1 (complex): the centre point of the second circle
+    #   r0 (numeric): radius of the first circle
+    #   r1 (numeric): radius of the second circle
+    grid_y = 20
 
-def common_points(Beacon1 b1, Beacon2 b2):
-    #distance between centers of circles
-    R = math.sqrt( pow(b2.x - b1.x, 2) + pow(b2.y - b1.y, 2)) 
-    
-    Car_x = 0.5*(b1.x + b2.x) + pow(b1.hypotenuse, 2) - pow(b2.hypotenuse, 2) /2.0/R/R  \
-              * (b2.hypotenuse - b1.hypotenuse)                                         \    
-              + 0.5*math.sqrt(2*(pow(b1.hypotenuse,2)+pow(b2.hypotenuse,2))/R/R         \
-              - pow(pow(b1.hypotenuse,2)-pow(b2.hypotenuse,2),2)/R/R/R/R  - 1)          \
-              * (b2.y - b1.y)
-    print(Car_x)
+    P0 = complex(b1.x, (grid_y - b1.y))
+    P1 = complex(b2.x,(grid_y - b2.y))
+    # P0 = complex(b1.x, grid_y - b1.y)
+    # P1 = complex(b2.x, grid_y - b2.y)
+    r0 = b1.radius
+    r1 = b2.radius
 
+    d = math.sqrt((P1.real - P0.real)**2 + (P1.imag - P0.imag)**2)   # d = distance, note: d = a + b
+    a = (r0**2 - r1**2 + d**2) / (2 * d)
+    b = d - a
+    h = (r0**2 - a**2)**(0.5)
+    P2 = P0 + a * (P1 - P0) / d
+    i1x = P2.real + h * (P1.imag - P0.imag) / d
+    i1y = P2.imag - h * (P1.real - P0.real) / d
+    i2x = P2.real - h * (P1.imag - P0.imag) / d
+    i2y = P2.imag + h * (P1.real - P0.real) / d
 
+    # car_location1 = Point(i1x, (grid_y - i1y))
+    # car_location2 = Point(i2x, (grid_y - i2y))
+    car_location1 = Point(i1x, i1y)
+    car_location2 = Point(i2x, i2y)
+    # print("Circle Intersection:",car_location1, car_location2)
+    if (car_location1.y < car_location2.y):
+        return car_location1
+    else:
+        return car_location2
 
-hypotenuse2 = 80
-angle2 = -15
-x2 = 600
-y2 = 400
-beacon2 = Beacon(hypotenuse2, angle2, x2, y2)
+x = 0.0             # Given This
+y = 0.0             # Given This
+hypotenuse = 13.0   # calculated from image
 
-hypotenuse1 = 60    #calculated from image
-angle1 = 20         #calculated from image
-X1 = 200    #Given this
-Y1 = 50     #Given this
+x2 = 8.0            # Given this
+y2 = 8.0            # Given this
+hypotenuse2 = 5.0   # calculated from image
 
-beacon1 = Beacon(hypotenuse1, angle1, X1, Y1)
+beacon = Beacon(x, y, hypotenuse)
+beacon2 = Beacon(x2, y2, hypotenuse2)
+car_Location = Intersect_Points(beacon, beacon2)
+destination = Point(6.0,6.0)   #Given This
+car_travel = distance_to_travel(car_Location, destination)
+car_travel_angle, car_travel_distance = get_angle_and_distance(car_travel)
 
-common_points(beacon1, beacon2)
-
-
-
-
-
-
-
-
-
+print("Beacon 1:\t{}".format(beacon))
+print("Beacon 2:\t{}".format(beacon2))
+print("Car Location:\t{}".format(car_Location))
+print("Destination:\t{}".format(destination))
+print("Car Travel:\t{}".format(car_travel))
+print("Angle: %.2f\tMagnitude: %.2f" % (car_travel_angle, car_travel_distance))
