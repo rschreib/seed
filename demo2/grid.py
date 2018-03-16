@@ -1,18 +1,23 @@
 import math # math.degrees(math.atan(math.sqrt(3)/1))
 
+def feet_to_cm(feet):
+    return feet*12.0*2.54
+def cm_to_feet(cm):
+    return cm/12.0/2.54
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
     def __repr__(self):
-        return "(x,y) = (%.2f,%.2f)" % (self.x,self.y)
+        return "(x,y) = (%.2f,%.2f)cm   \t(%.2f,%.2f)ft" % (self.x,self.y,cm_to_feet(self.x),cm_to_feet(self.y))
 class Beacon:
     def __init__(self,x, y, radius):
         self.x = x                      # Location of Beacon on Grid
         self.y = y                      # Location of Beacon on Grid
         self.radius = radius            # distance from car
     def __repr__(self):
-        return "(x,y) = (%.2f,%.2f)" % (self.x,self.y)
+        return "(x,y) = (%.2f,%.2f)cm   \t(%.2f,%.2f)ft" % (self.x,self.y,cm_to_feet(self.x),cm_to_feet(self.y))
+        # return "(x,y) = (%.2f,%.2f)" % (self.x,self.y)
 def get_angle_and_distance(p):
     angle = math.degrees(math.atan(p.y / p.x)) - 90
     magnitude = math.sqrt(p.x**2 + p.y**2)
@@ -33,7 +38,7 @@ def Intersect_Points(b1, b2):
     #   P1 (complex): the centre point of the second circle
     #   r0 (numeric): radius of the first circle
     #   r1 (numeric): radius of the second circle
-    grid_y = 20
+    grid_y = 144*2.54
 
     P0 = complex(b1.x, (grid_y - b1.y))
     P1 = complex(b2.x,(grid_y - b2.y))
@@ -62,18 +67,18 @@ def Intersect_Points(b1, b2):
     else:
         return car_location2
 
-x = 0.0             # Given This
+x = feet_to_cm(1)   # Given This  cm
 y = 0.0             # Given This
-hypotenuse = 13.0   # calculated from image
+hypotenuse = 158.8  # calculated from image  cm
 
-x2 = 8.0            # Given this
-y2 = 8.0            # Given this
-hypotenuse2 = 5.0   # calculated from image
+x2 = feet_to_cm(3)  # Given this  cm
+y2 = 0.0            # Given this
+hypotenuse2 = 158.8   # calculated from image  cm
 
 beacon = Beacon(x, y, hypotenuse)
 beacon2 = Beacon(x2, y2, hypotenuse2)
 car_Location = Intersect_Points(beacon, beacon2)
-destination = Point(6.0,6.0)   #Given This
+destination = Point(feet_to_cm(6.0),feet_to_cm(5.0))   #Given This
 car_travel = distance_to_travel(car_Location, destination)
 car_travel_angle, car_travel_distance = get_angle_and_distance(car_travel)
 
